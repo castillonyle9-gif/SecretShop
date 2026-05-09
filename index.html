@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Secret Shop — Abu Dhabi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --b:#0a0a0a;
+  --w:#f5f5f5;
+  --g:#aaa;
+  --line:#222;
+  --line-l:#e0e0e0;
+  --mono:'Space Mono',monospace;
+  --sans:'Barlow',sans-serif;
+  --wa:#25D366;
+}
+
+body{background:var(--b);color:var(--w);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;width:100%;height:100%;object-fit:cover}
+button{font-family:var(--sans);cursor:pointer;border:none;background:none}
+
+/* ── TICKER ── */
+.ticker-wrap{background:var(--w);overflow:hidden;padding:7px 0;white-space:nowrap}
+.ticker-track{display:inline-flex;animation:tick 22s linear infinite}
+.ticker-item{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--b);padding:0 2.5rem;font-weight:700;text-transform:uppercase}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── HEADER ── */
+header{
+  position:sticky;top:0;z-index:100;
+  background:var(--b);
+  border-bottom:1px solid var(--line);
+}
+.header-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.5rem;height:58px;gap:1rem;
+}
+
+/* LOGO */
+.logo{
+  display:flex;align-items:center;gap:0.6rem;flex-shrink:0;
+  font-family:var(--mono);text-transform:uppercase;
+}
+.logo-icon{
+  width:32px;height:32px;background:var(--w);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:var(--b);letter-spacing:0;
+  flex-shrink:0;
+}
+.logo-text{font-size:11px;letter-spacing:3px;line-height:1.2;color:var(--w)}
+.logo-text span{display:block;font-size:8px;letter-spacing:2px;color:var(--g)}
+
+/* SEARCH */
+.search-wrap{
+  flex:1;max-width:480px;
+  position:relative;
+}
+.search-wrap input{
+  width:100%;
+  background:var(--line);
+  border:1px solid #333;
+  color:var(--w);
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:1px;
+  padding:9px 38px 9px 14px;
+  outline:none;
+  transition:border-color 0.2s;
+}
+.search-wrap input::placeholder{color:var(--g)}
+.search-wrap input:focus{border-color:#555}
+.search-wrap .s-icon{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  color:var(--g);pointer-events:none;
+}
+.clear-btn{
+  display:none;
+  position:absolute;right:32px;top:50%;transform:translateY(-50%);
+  color:var(--g);font-size:14px;background:none;border:none;cursor:pointer;
+  padding:0 4px;
+}
+.clear-btn.visible{display:block}
+
+/* WA BUTTON */
+.wa-btn{
+  display:flex;align-items:center;gap:0.5rem;
+  background:var(--wa);
+  color:#fff;
+  padding:8px 14px;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  font-weight:700;
+  white-space:nowrap;
+  flex-shrink:0;
+  transition:opacity 0.2s;
+}
+.wa-btn:hover{opacity:0.88}
+.wa-btn svg{flex-shrink:0}
+
+/* NAV CATEGORIES */
+.cat-nav{
+  display:flex;
+  border-top:1px solid var(--line);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.cat-nav::-webkit-scrollbar{display:none}
+.cat-btn{
+  padding:10px 20px;
+  font-family:var(--mono);
+  font-size:9.5px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--g);
+  white-space:nowrap;
+  border-right:1px solid var(--line);
+  border-bottom:2px solid transparent;
+  transition:color 0.2s,border-color 0.2s;
+  flex-shrink:0;
+}
+.cat-btn:hover{color:var(--w)}
+.cat-btn.active{color:var(--w);border-bottom-color:var(--w)}
+
+/* ── COVER ── */
+.cover{
+  position:relative;
+  height:75svh;
+  min-height:400px;
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+  background:#111;
+}
+.cover-img{position:absolute;inset:0}
+.cover-img img{filter:brightness(0.55) grayscale(100%)}
+.cover-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.1) 60%,transparent 100%);
+}
+.cover-content{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  padding:2.5rem 2rem;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.cover-headline{
+  font-family:var(--mono);
+  font-size:clamp(2.2rem,7vw,5.5rem);
+  font-weight:700;
+  letter-spacing:-1px;
+  line-height:0.95;
+  text-transform:uppercase;
+}
+.cover-headline em{font-style:italic;color:var(--g)}
+.cover-pills{
+  display:flex;flex-direction:column;gap:0.5rem;align-items:flex-end;
+}
+.cover-pill{
+  font-family:var(--mono);
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--w);
+  opacity:0.7;
+}
+
+/* TABBY STRIP */
+.tabby-strip{
+  background:var(--w);
+  display:flex;align-items:center;justify-content:center;
+  gap:1rem;
+  padding:10px 1.5rem;
+  border-bottom:1px solid #ddd;
+  flex-wrap:wrap;
+}
+.tabby-strip p{
+  font-family:var(--mono);font-size:10px;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--b);font-weight:700;
+}
+.tabby-logo{
+  display:flex;align-items:center;gap:5px;
+  background:var(--b);padding:4px 12px;
+}
+.tabby-logo span{
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  color:var(--w);letter-spacing:2px;
+}
+.tabby-logo .t-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#C2FF1F;display:inline-block;
+}
+
+/* ── SECTION LABEL ── */
+.section-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 1.5rem;
+  border-bottom:1px solid var(--line);
+}
+.section-name{
+  font-family:var(--mono);font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--g);
+}
+.section-count{
+  font-family:var(--mono);font-size:10px;letter-spacing:1.5px;
+  color:#444;
+}
+
+/* ── PRODUCT GRID ── */
+.grid-outer{padding:0 0 2rem}
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-left:1px solid var(--line);
+}
+
+/* ── PRODUCT CARD ── */
+.card{
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity 0.4s,transform 0.4s;
+}
+.card.in{opacity:1;transform:translateY(0)}
+.card.hidden{display:none!important}
+
+.card-photo{
+  position:relative;
+  aspect-ratio:3/4;
+  background:#151515;
+  overflow:hidden;
+}
+.card-photo img{
+  transition:transform 0.55s cubic-bezier(.25,.46,.45,.94),filter 0.3s;
+  filter:grayscale(20%);
+}
+.card:hover .card-photo img{transform:scale(1.07);filter:grayscale(0%)}
+
+/* placeholder */
+.ph{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:8px;
+  background:#111;
+  color:#333;
+  font-family:var(--mono);
+  font-size:8px;letter-spacing:1.5px;
+  text-transform:uppercase;text-align:center;padding:1rem;
+}
+.ph svg{opacity:0.2}
+
+.card-badge{
+  position:absolute;top:0;left:0;
+  font-family:var(--mono);
+  font-size:8px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:4px 9px;
+  background:var(--w);color:var(--b);
+}
+.card-badge.hot{background:#ff2d2d;color:#fff}
+.card-badge.new{background:var(--w);color:var(--b)}
+
+.card-wa{
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--wa);
+  color:#fff;
+  font-family:var(--mono);
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;
+  padding:9px;
+  text-align:center;
+  transform:translateY(100%);
+  transition:transform 0.28s cubic-bezier(.25,.46,.45,.94);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.card:hover .card-wa{transform:translateY(0)}
+
+.card-info{
+  padding:0.75rem 0.85rem 1rem;
+  border-top:1px solid var(--line);
+}
+.card-cat{
+  font-family:var(--mono);font-size:7.5px;letter-spacing:2px;
+  text-transform:uppercase;color:#555;margin-bottom:4px;
+}
+.card-name{
+  font-size:13px;font-weight:600;line-height:1.25;
+  letter-spacing:0.2px;
+}
+.card-sub{
+  font-size:10px;color:var(--g);margin-top:3px;letter-spacing:0.3px;
+}
+.card-enquire{
+  margin-top:8px;
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:8.5px;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--g);
+  border-bottom:1px solid #333;
+  padding-bottom:1px;
+  transition:color 0.2s,border-color 0.2s;
+}
+.card:hover .card-enquire{color:var(--wa);border-color:var(--wa)}
+
+/* ── EMPTY STATE ── */
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  padding:5rem 1rem;
+  border-right:1px solid var(--line);
+}
+.empty p{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:#444;text-transform:uppercase}
+.empty span{display:block;font-size:9px;color:#333;margin-top:0.5rem;letter-spacing:1px}
+
+/* ── INFO STRIP ── */
+.info-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.info-cell{
+  padding:2rem 1.5rem;
+  border-right:1px solid var(--line);
+  display:flex;align-items:flex-start;gap:1rem;
+}
+.info-cell:last-child{border-right:none}
+.info-icon{
+  width:36px;height:36px;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:var(--g);
+}
+.info-cell h4{
+  font-family:var(--mono);font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.info-cell p{font-size:11px;color:var(--g);line-height:1.7}
+.info-cell a{color:var(--wa);text-decoration:none}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--line);
+  padding:2rem 1.5rem;
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:2rem;
+  border-top:1px solid #222;
+}
+.f-col h4{
+  font-family:var(--mono);font-size:9px;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--g);margin-bottom:1rem;
+}
+.f-col p,.f-col a{
+  font-size:12px;color:#666;line-height:1.9;display:block;
+  transition:color 0.2s;
+}
+.f-col a:hover{color:var(--w)}
+.f-logo{
+  font-family:var(--mono);font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--w);margin-bottom:0.5rem;
+}
+.f-sub{font-size:10px;color:#444;letter-spacing:0.5px}
+.f-socials{display:flex;gap:0.75rem;margin-top:1rem;flex-wrap:wrap}
+.f-social{
+  font-family:var(--mono);font-size:9px;letter-spacing:1.5px;
+  text-transform:uppercase;color:#555;border:1px solid #333;
+  padding:5px 12px;transition:all 0.2s;
+}
+.f-social:hover{border-color:var(--g);color:var(--w)}
+
+.footer-bottom{
+  border-top:1px solid var(--line);
+  padding:1rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;
+}
+.footer-bottom p{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;color:#444;text-transform:uppercase}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .product-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:780px){
+  .product-grid{grid-template-columns:repeat(2,1fr)}
+  .info-strip{grid-template-columns:1fr}
+  .info-cell{border-right:none;border-bottom:1px solid var(--line)}
+  .info-cell:last-child{border-bottom:none}
+  footer{grid-template-columns:1fr}
+  .wa-btn span{display:none}
+  .cover-content{padding:1.5rem}
+}
+@media(max-width:480px){
+  .header-top{padding:0 1rem}
+  .logo-text{display:none}
+  .search-wrap{max-width:none}
+  .section-bar{padding:0.75rem 1rem}
+  .product-grid{grid-template-columns:repeat(2,1fr)}
+  .card-info{padding:0.6rem 0.7rem 0.85rem}
+  .card-name{font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">🔥 Hype Items Supplier</span>
+    <span class="ticker-item">📌 UA Pairs</span>
+    <span class="ticker-item">📌 Street Wear</span>
+    <span class="ticker-item">📌 Branded Items</span>
+    <span class="ticker-item">📌 Bags & Accessories</span>
+    <span class="ticker-item">Abu Dhabi 🇦🇪</span>
+    <span class="ticker-item">DM to Order</span>
+    <span class="ticker-item">Tabby Available</span>
+    <span class="ticker-item">🔥 Hype Items Supplier</span>
+    <span class="ticker-item">📌 UA Pairs</span>
+    <span class="ticker-item">📌 Street Wear</span>
+    <span class="ticker-item">📌 Branded Items</span>
+    <span class="ticker-item">📌 Bags & Accessories</span>
+    <span class="ticker-item">Abu Dhabi 🇦🇪</span>
+    <span class="ticker-item">DM to Order</span>
+    <span class="ticker-item">Tabby Available</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <!-- LOGO -->
+    <a href="#" class="logo" aria-label="Secret Shop home">
+      <div class="logo-icon">SS</div>
+      <div class="logo-text">
+        Secret Shop
+        <span>Abu Dhabi · UAE</span>
+      </div>
+    </a>
+
+    <!-- SEARCH -->
+    <div class="search-wrap" role="search">
+      <input type="text" id="search-input" placeholder="Search Nike, Jordan, Supreme..." aria-label="Search products"/>
+      <button class="clear-btn" id="clear-btn" aria-label="Clear search">✕</button>
+      <svg class="s-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </div>
+
+    <!-- WHATSAPP -->
+    <a href="https://wa.me/971563780062?text=Hi%20Secret%20Shop!%20I%20found%20you%20on%20your%20website%20and%20I%27m%20interested%20in%20an%20item." 
+       target="_blank" class="wa-btn" aria-label="Contact on WhatsApp">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      <span>Order Now</span>
+    </a>
+  </div>
+
+  <!-- CATEGORIES -->
+  <nav class="cat-nav" role="navigation" aria-label="Product categories">
+    <button class="cat-btn active" data-cat="all">All Items</button>
+    <button class="cat-btn" data-cat="ua-pairs">UA Pairs 👟</button>
+    <button class="cat-btn" data-cat="streetwear">Street Wear 👕</button>
+    <button class="cat-btn" data-cat="branded">Branded Items 👜</button>
+    <button class="cat-btn" data-cat="accessories">Bags & Acc. 🎒</button>
+  </nav>
+</header>
+
+<!-- COVER -->
+<section class="cover" aria-label="Cover photo">
+  <div class="cover-img">
+    <!--
+    ╔════════════════════════════════════════════╗
+    ║  COVER PHOTO                               ║
+    ║  Replace with:                             ║
+    ║  <img src="images/cover.jpg"               ║
+    ║       alt="Secret Shop Abu Dhabi" />       ║
+    ║  Best: 1400×900px landscape               ║
+    ╚════════════════════════════════════════════╝
+    -->
+    <div style="width:100%;height:100%;background:#0d0d0d;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem">
+      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/>
+      </svg>
+      <p style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:#444;text-transform:uppercase">Add cover photo — images/cover.jpg</p>
+    </div>
+  </div>
+  <div class="cover-overlay"></div>
+  <div class="cover-content">
+    <h1 class="cover-headline">Secret<br><em>Shop.</em></h1>
+    <div class="cover-pills">
+      <span class="cover-pill">🔥 UA Pairs &amp; Hype Items</span>
+      <span class="cover-pill">📍 Abu Dhabi, UAE</span>
+      <span class="cover-pill">💬 DM to Order</span>
+    </div>
+  </div>
+</section>
+
+<!-- TABBY STRIP -->
+<div class="tabby-strip" role="complementary" aria-label="Payment options">
+  <p>Now accepting</p>
+  <div class="tabby-logo">
+    <span class="t-dot"></span>
+    <span>TABBY</span>
+  </div>
+  <p>— Buy now, pay later. Split into 4 payments.</p>
+</div>
+
+<!-- SECTION BAR -->
+<div class="section-bar">
+  <span class="section-name" id="section-label">All Items</span>
+  <span class="section-count" id="item-count">— items</span>
+</div>
+
+<!-- PRODUCT GRID -->
+<main class="grid-outer">
+  <div class="product-grid" id="product-grid" role="list" aria-label="Products"></div>
+</main>
+
+<!-- INFO STRIP -->
+<div class="info-strip" role="complementary">
+  <div class="info-cell">
+    <div class="info-icon" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/>
+      </svg>
+    </div>
+    <div>
+      <h4>Order via WhatsApp</h4>
+      <p>DM us on WhatsApp to enquire about any item. Fast replies, easy ordering.<br>
+      <a href="https://wa.me/971563780062" target="_blank">+971 56 378 0062</a></p>
+    </div>
+  </div>
+  <div class="info-cell">
+    <div class="info-icon" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
+      </svg>
+    </div>
+    <div>
+      <h4>Find Us</h4>
+      <p>Abu Dhabi, United Arab Emirates<br>
+      <a href="https://www.bing.com/maps/default.aspx?v=2&where1=Abu+Dhabi,+United+Arab+Emirates" target="_blank">Get Directions →</a></p>
+    </div>
+  </div>
+  <div class="info-cell">
+    <div class="info-icon" aria-hidden="true">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+      </svg>
+    </div>
+    <div>
+      <h4>Pay with Tabby</h4>
+      <p>Split your purchase into 4 interest-free payments. Available on all orders.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="f-col">
+    <div class="f-logo">Secret Shop</div>
+    <p class="f-sub" style="color:#555;font-size:11px;line-height:1.8;margin-bottom:0.75rem">
+      🔥 Hype Items Supplier<br>
+      📌 UA Pairs · Street Wear<br>
+      📌 Branded Items · Bags & Acc.
+    </p>
+    <div class="f-socials">
+      <a href="https://www.facebook.com/profile.php?id=61552629475156" target="_blank" class="f-social">Facebook</a>
+      <a href="https://wa.me/971563780062" target="_blank" class="f-social">WhatsApp</a>
+    </div>
+  </div>
+  <div class="f-col">
+    <h4>Categories</h4>
+    <a href="#" class="f-col" onclick="setcat('ua-pairs')">UA Pairs</a>
+    <a href="#" onclick="setcat('streetwear')">Street Wear</a>
+    <a href="#" onclick="setcat('branded')">Branded Items</a>
+    <a href="#" onclick="setcat('accessories')">Bags &amp; Accessories</a>
+  </div>
+  <div class="f-col">
+    <h4>Contact</h4>
+    <a href="https://wa.me/971563780062" target="_blank">WhatsApp: 056 378 0062</a>
+    <a href="https://www.facebook.com/profile.php?id=61552629475156" target="_blank">Facebook Page</a>
+    <p>Abu Dhabi, UAE 🇦🇪</p>
+    <p style="margin-top:0.75rem;color:#555;font-size:10px;letter-spacing:1px">TABBY · Buy Now Pay Later</p>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <p>© 2025 Secret Shop · Abu Dhabi</p>
+  <p>9.4K Followers on Facebook 🔥</p>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════
+   PRODUCTS — 50 items
+   To add your image: set  img: "images/yourfile.jpg"
+   Leave img: ""  to show placeholder
+   
+   FIELDS:
+     id       — unique id
+     name     — display name
+     brand    — brand name (used in search)
+     cat      — "ua-pairs" | "streetwear" | "branded" | "accessories"
+     badge    — "HOT" | "NEW" | null
+     tags     — extra search keywords (include misspellings!)
+     desc     — short description
+     img      — "images/filename.jpg"  or ""
+     alt      — image alt text
+════════════════════════════════════════════════ */
+const ITEMS = [
+  /* ── UA PAIRS ── */
+  { id:1,  name:"Air Jordan 1 Retro High OG",     brand:"Jordan / Nike", cat:"ua-pairs",    badge:"HOT", tags:["jordan","aj1","nike","airjordan","nikee","niike","jordaan","sneakers","shoes","kicks"],   desc:"Chicago colourway · High Top",           img:"", alt:"Air Jordan 1 Retro High OG" },
+  { id:2,  name:"Nike Air Force 1 '07",            brand:"Nike",          cat:"ua-pairs",    badge:"HOT", tags:["air force","af1","nike","nikee","niike","white","sneakers","shoes"],                       desc:"Triple White · Low Top",                 img:"", alt:"Nike Air Force 1" },
+  { id:3,  name:"Yeezy Boost 350 V2",              brand:"Adidas / Yeezy",cat:"ua-pairs",    badge:"HOT", tags:["yeezy","adidas","350","boost","kanye","yeezi","yezzy"],                                    desc:"Zebra colourway · Primeknit",            img:"", alt:"Yeezy Boost 350 V2" },
+  { id:4,  name:"Travis Scott x Air Jordan 1",    brand:"Travis Scott",  cat:"ua-pairs",    badge:"HOT", tags:["travis","scott","jordan","nike","nikee","cactus","jack","collab"],                         desc:"Mocha Brown · Reverse Swoosh",           img:"", alt:"Travis Scott Jordan 1" },
+  { id:5,  name:"New Balance 550",                 brand:"New Balance",   cat:"ua-pairs",    badge:"NEW", tags:["new balance","nb","550","newbalance","nb550"],                                             desc:"White Navy · Retro Basketball",          img:"", alt:"New Balance 550" },
+  { id:6,  name:"Nike Dunk Low Panda",             brand:"Nike",          cat:"ua-pairs",    badge:"HOT", tags:["dunk","panda","nike","nikee","niike","dunks","low"],                                       desc:"Black White · Classic Dunk",             img:"", alt:"Nike Dunk Low Panda" },
+  { id:7,  name:"Adidas Samba OG",                 brand:"Adidas",        cat:"ua-pairs",    badge:"NEW", tags:["samba","adidas","adiddas","og","samba og"],                                               desc:"Black White Gum · Low Top",              img:"", alt:"Adidas Samba OG" },
+  { id:8,  name:"Air Jordan 4 Retro",              brand:"Jordan",        cat:"ua-pairs",    badge:"HOT", tags:["jordan","aj4","4","retro","nikee","nike","jordaan","fire red"],                            desc:"Fire Red · High Top",                    img:"", alt:"Air Jordan 4 Retro" },
+  { id:9,  name:"Nike Air Max 90",                 brand:"Nike",          cat:"ua-pairs",    badge:null,  tags:["air max","90","nike","nikee","niike","airmax"],                                            desc:"Infrared · Heritage Runner",             img:"", alt:"Nike Air Max 90" },
+  { id:10, name:"Balenciaga Triple S",             brand:"Balenciaga",    cat:"ua-pairs",    badge:"HOT", tags:["balenciaga","triple s","balen","balenciga","dad shoe"],                                   desc:"White Black Red · Chunky",               img:"", alt:"Balenciaga Triple S" },
+  { id:11, name:"Dior B23 High Top",               brand:"Dior",          cat:"ua-pairs",    badge:"HOT", tags:["dior","b23","christian dior","luxury","dioor"],                                           desc:"Oblique Print · High Top",               img:"", alt:"Dior B23 High Top" },
+  { id:12, name:"Louis Vuitton Trainer",           brand:"Louis Vuitton", cat:"ua-pairs",    badge:"HOT", tags:["louis vuitton","lv","louie","loius","trainer","luxury"],                                  desc:"Monogram Print · Chunky Sole",           img:"", alt:"Louis Vuitton Trainer" },
+  { id:13, name:"Off-White x Nike Dunk Low",      brand:"Off-White/Nike",cat:"ua-pairs",    badge:"HOT", tags:["off white","offwhite","dunk","nike","nikee","virgil","collab"],                           desc:"Lot 29 · The 50 Series",                 img:"", alt:"Off-White Nike Dunk" },
+  { id:14, name:"New Balance 9060",                brand:"New Balance",   cat:"ua-pairs",    badge:"NEW", tags:["new balance","nb","9060","newbalance"],                                                   desc:"Sea Salt Mushroom · Chunky Runner",      img:"", alt:"New Balance 9060" },
+  { id:15, name:"Converse Chuck 70",               brand:"Converse",      cat:"ua-pairs",    badge:null,  tags:["converse","chuck","70","convers","all star","chucks"],                                    desc:"Vintage Canvas · High Top",              img:"", alt:"Converse Chuck 70" },
+  /* ── STREETWEAR ── */
+  { id:16, name:"Supreme Box Logo Hoodie",         brand:"Supreme",       cat:"streetwear",  badge:"HOT", tags:["supreme","box logo","hoodie","bogo","suprem","supreem"],                                  desc:"FW24 · Classic Boxy Fit",                img:"", alt:"Supreme Box Logo Hoodie" },
+  { id:17, name:"Stüssy 8 Ball Fleece",            brand:"Stüssy",        cat:"streetwear",  badge:"HOT", tags:["stussy","8ball","fleece","stüssy","stusy","stussy"],                                      desc:"Heavy Fleece · Relaxed Fit",             img:"", alt:"Stussy 8 Ball Fleece" },
+  { id:18, name:"BAPE Shark Hoodie",               brand:"BAPE",          cat:"streetwear",  badge:"HOT", tags:["bape","shark","hoodie","bathing ape","a bathing ape","ape"],                              desc:"Full Zip Shark Camo · OG",               img:"", alt:"BAPE Shark Hoodie" },
+  { id:19, name:"Essentials Fear of God Hoodie",  brand:"Fear of God",   cat:"streetwear",  badge:"NEW", tags:["essentials","fear of god","fog","jerry lorenzo","essential"],                             desc:"Cream · Relaxed Oversized",              img:"", alt:"Essentials Hoodie" },
+  { id:20, name:"Nike Tech Fleece Jogger Set",     brand:"Nike",          cat:"streetwear",  badge:"HOT", tags:["nike","tech fleece","tech","nikee","jogger","tracksuit","set"],                           desc:"Carbon Black · Full Set",                img:"", alt:"Nike Tech Fleece Set" },
+  { id:21, name:"Jordan Brand Varsity Jacket",     brand:"Jordan",        cat:"streetwear",  badge:"NEW", tags:["jordan","varsity","jacket","nikee","nike","flight"],                                      desc:"Red Black · Wool Blend",                 img:"", alt:"Jordan Varsity Jacket" },
+  { id:22, name:"Supreme TNF Summit Jacket",       brand:"Supreme/TNF",   cat:"streetwear",  badge:"HOT", tags:["supreme","north face","tnf","nuptse","collab"],                                          desc:"Nuptse · Puffer Collab",                 img:"", alt:"Supreme North Face Jacket" },
+  { id:23, name:"Corteiz Cargo Trousers",          brand:"Corteiz",       cat:"streetwear",  badge:"HOT", tags:["corteiz","crtz","cargo","cortez","corteiz"],                                             desc:"4Starz · Guerillaz Fit",                 img:"", alt:"Corteiz Cargo Pants" },
+  { id:24, name:"Palace Tri-Ferg Tee",             brand:"Palace",        cat:"streetwear",  badge:null,  tags:["palace","tri ferg","triferg","london","skate","pallace"],                                desc:"100% Cotton · Heavyweight",              img:"", alt:"Palace Triferg Tee" },
+  { id:25, name:"Trapstar Irongate Hoodie",        brand:"Trapstar",      cat:"streetwear",  badge:"HOT", tags:["trapstar","irongate","it's a secret","trap star"],                                       desc:"Black · Reflective Print",               img:"", alt:"Trapstar Irongate Hoodie" },
+  { id:26, name:"Denim Tears x Levi's Jeans",     brand:"Denim Tears",   cat:"streetwear",  badge:"HOT", tags:["denim tears","levis","levi's","jeans","denim","collab"],                                 desc:"Wreath Print · 501 Silhouette",          img:"", alt:"Denim Tears Levis Jeans" },
+  { id:27, name:"Aimé Leon Dore Striped Tee",      brand:"ALD",           cat:"streetwear",  badge:"NEW", tags:["aime leon dore","ald","aimé","striped","new york"],                                      desc:"Rugby Stripe · Boxy Cut",                img:"", alt:"ALD Striped Tee" },
+  { id:28, name:"Kith Williams Crewneck",          brand:"Kith",          cat:"streetwear",  badge:"NEW", tags:["kith","williams","crewneck","kith monday"],                                              desc:"Loopback Fleece · Classic",              img:"", alt:"Kith Williams Crewneck" },
+  { id:29, name:"Nike x Nocta Hoodie",             brand:"Nike/Drake",    cat:"streetwear",  badge:"HOT", tags:["nocta","drake","nike","nikee","collab","hotline"],                                       desc:"Drake Collab · Club Fleece",             img:"", alt:"Nike Nocta Hoodie" },
+  { id:30, name:"Gallery Dept Paint Flare Jeans",  brand:"Gallery Dept",  cat:"streetwear",  badge:"HOT", tags:["gallery dept","flare","paint","jeans","josué thomas"],                                   desc:"Hand-painted · Distressed",              img:"", alt:"Gallery Dept Flare Jeans" },
+  /* ── BRANDED ── */
+  { id:31, name:"Gucci Monogram Cap",              brand:"Gucci",         cat:"branded",     badge:"HOT", tags:["gucci","cap","hat","gucchi","guchi","gg","logo"],                                        desc:"GG Supreme · Adjustable",                img:"", alt:"Gucci Monogram Cap" },
+  { id:32, name:"Louis Vuitton Cap",               brand:"Louis Vuitton", cat:"branded",     badge:"HOT", tags:["louis vuitton","lv","louie","loius","cap","hat","monogram"],                             desc:"Monogram · LV Logo",                     img:"", alt:"Louis Vuitton Cap" },
+  { id:33, name:"Burberry Check Scarf",            brand:"Burberry",      cat:"branded",     badge:null,  tags:["burberry","scarf","check","plaid","brit","berberry"],                                    desc:"Classic Nova Check · Cashmere",          img:"", alt:"Burberry Check Scarf" },
+  { id:34, name:"Versace Medusa T-Shirt",          brand:"Versace",       cat:"branded",     badge:"HOT", tags:["versace","medusa","tshirt","tee","versachi","versaace"],                                 desc:"Black · Medusa Chest Print",             img:"", alt:"Versace Medusa Tee" },
+  { id:35, name:"Dior Oblique Jacket",             brand:"Dior",          cat:"branded",     badge:"HOT", tags:["dior","oblique","jacket","christian dior","dioor"],                                      desc:"Windbreaker · Signature Print",          img:"", alt:"Dior Oblique Jacket" },
+  { id:36, name:"Moncler Maya Puffer Jacket",      brand:"Moncler",       cat:"branded",     badge:"NEW", tags:["moncler","puffer","maya","down","jacket","monclaire"],                                   desc:"Black · Down Fill · Logo Badge",         img:"", alt:"Moncler Maya Jacket" },
+  { id:37, name:"Stone Island Crewneck",           brand:"Stone Island",  cat:"branded",     badge:"HOT", tags:["stone island","stone","island","badge","garment dyed"],                                 desc:"Garment Dyed · Compass Badge",           img:"", alt:"Stone Island Crewneck" },
+  { id:38, name:"Canada Goose Expedition Parka",   brand:"Canada Goose",  cat:"branded",     badge:"HOT", tags:["canada goose","goose","parka","expedition","down","canadaa"],                            desc:"Black · Arctic Parka",                   img:"", alt:"Canada Goose Parka" },
+  { id:39, name:"Palm Angels Track Jacket",        brand:"Palm Angels",   cat:"branded",     badge:"NEW", tags:["palm angels","track","jacket","palms","angel"],                                          desc:"Classic Logo · Side Stripe",             img:"", alt:"Palm Angels Track Jacket" },
+  { id:40, name:"Rhude Traxedo Pants",             brand:"Rhude",         cat:"branded",     badge:"HOT", tags:["rhude","traxedo","pants","rude","luxury"],                                              desc:"Luxury Tracksuits · Wide Leg",           img:"", alt:"Rhude Traxedo Pants" },
+  /* ── BAGS & ACCESSORIES ── */
+  { id:41, name:"Louis Vuitton Neverfull MM",      brand:"Louis Vuitton", cat:"accessories", badge:"HOT", tags:["louis vuitton","lv","neverfull","tote","bag","louie","loius"],                           desc:"Monogram Canvas · MM Size",              img:"", alt:"LV Neverfull MM" },
+  { id:42, name:"Gucci Ophidia GG Crossbody",      brand:"Gucci",         cat:"accessories", badge:"HOT", tags:["gucci","ophidia","gg","crossbody","bag","gucchi","guchi"],                               desc:"GG Supreme Canvas · Gold HW",            img:"", alt:"Gucci Ophidia Bag" },
+  { id:43, name:"Chanel Classic Flap Bag",         brand:"Chanel",        cat:"accessories", badge:"HOT", tags:["chanel","flap","classic","chanell","cc","quilted"],                                      desc:"Black Caviar · Gold Chain",              img:"", alt:"Chanel Classic Flap" },
+  { id:44, name:"Dior Saddle Bag",                 brand:"Dior",          cat:"accessories", badge:"HOT", tags:["dior","saddle","bag","christian dior","oblique"],                                        desc:"Oblique Jacquard · Iconic Shape",        img:"", alt:"Dior Saddle Bag" },
+  { id:45, name:"Balenciaga Le Cagole Bag",        brand:"Balenciaga",    cat:"accessories", badge:"NEW", tags:["balenciaga","le cagole","cagole","bag","balen","balenciga"],                             desc:"Crinkled Lambskin · XS",                 img:"", alt:"Balenciaga Le Cagole" },
+  { id:46, name:"Nike Brasilia Backpack",           brand:"Nike",          cat:"accessories", badge:null,  tags:["nike","brasilia","backpack","bag","nikee","niike"],                                      desc:"30L Capacity · Black",                   img:"", alt:"Nike Brasilia Backpack" },
+  { id:47, name:"Supreme x North Face Backpack",   brand:"Supreme/TNF",   cat:"accessories", badge:"HOT", tags:["supreme","north face","tnf","backpack","bag","collab"],                                  desc:"Fw23 Backpack · Logo Print",             img:"", alt:"Supreme North Face Backpack" },
+  { id:48, name:"Gucci Belt GG Buckle",            brand:"Gucci",         cat:"accessories", badge:"HOT", tags:["gucci","belt","gg","marmont","gucchi","guchi","buckle"],                                 desc:"Black Leather · Interlocking GG",        img:"", alt:"Gucci GG Belt" },
+  { id:49, name:"Louis Vuitton Initiales Belt",    brand:"Louis Vuitton", cat:"accessories", badge:"HOT", tags:["louis vuitton","lv","belt","louie","loius","initiales"],                                 desc:"Monogram Canvas · 40mm",                 img:"", alt:"LV Initiales Belt" },
+  { id:50, name:"Prada Re-Edition 2005 Bag",       brand:"Prada",         cat:"accessories", badge:"NEW", tags:["prada","re-edition","2005","nylon","bag","praada"],                                      desc:"Re-Nylon · Mini Hobo",                   img:"", alt:"Prada Re-Edition 2005" },
+];
+
+/* ════════ FUZZY SEARCH ════════ */
+function fuzzyMatch(query, item) {
+  if (!query) return true;
+  const q = query.toLowerCase().trim();
+  const words = q.split(/\s+/);
+  const haystack = [
+    item.name, item.brand, item.desc, ...(item.tags || [])
+  ].join(' ').toLowerCase();
+
+  return words.every(word => {
+    if (haystack.includes(word)) return true;
+    // Levenshtein-based tolerance for longer words
+    const tokens = haystack.split(/\s+/);
+    return tokens.some(token => levenshtein(word, token) <= Math.floor(word.length / 4));
+  });
+}
+
+function levenshtein(a, b) {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  if (Math.abs(a.length - b.length) > 3) return 99;
+  const dp = Array.from({length: a.length+1}, (_,i) =>
+    Array.from({length: b.length+1}, (_,j) => i === 0 ? j : j === 0 ? i : 0)
+  );
+  for (let i = 1; i <= a.length; i++)
+    for (let j = 1; j <= b.length; j++)
+      dp[i][j] = a[i-1] === b[j-1]
+        ? dp[i-1][j-1]
+        : 1 + Math.min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]);
+  return dp[a.length][b.length];
+}
+
+/* ════════ STATE ════════ */
+let currentCat = 'all';
+let searchQ = '';
+
+/* ════════ WA LINK ════════ */
+function waLink(item) {
+  const msg = encodeURIComponent(`Hi Secret Shop! 👋 I'm interested in the *${item.name}* (${item.brand}). Is it available?`);
+  return `https://wa.me/971563780062?text=${msg}`;
+}
+
+/* ════════ PLACEHOLDER ════════ */
+const PH = (label) => `
+  <div class="ph">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/>
+    </svg>
+    ${label}
+  </div>`;
+
+/* ════════ RENDER ════════ */
+function getVisible() {
+  return ITEMS.filter(item => {
+    const catOk = currentCat === 'all' || item.cat === currentCat;
+    const searchOk = fuzzyMatch(searchQ, item);
+    return catOk && searchOk;
+  });
+}
+
+function render() {
+  const visible = getVisible();
+  const grid = document.getElementById('product-grid');
+  document.getElementById('item-count').textContent = `${visible.length} item${visible.length !== 1 ? 's' : ''}`;
+
+  const catNames = {all:'All Items','ua-pairs':'UA Pairs','streetwear':'Street Wear','branded':'Branded Items','accessories':'Bags & Accessories'};
+  document.getElementById('section-label').textContent =
+    searchQ ? `Search: "${searchQ}"` : catNames[currentCat];
+
+  if (!visible.length) {
+    grid.innerHTML = `<div class="empty" role="listitem">
+      <p>No items found</p>
+      <span>Try a different search or category</span>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = visible.map((item, i) => {
+    const badge = item.badge
+      ? `<span class="card-badge ${item.badge === 'HOT' ? 'hot' : 'new'}">${item.badge}</span>` : '';
+    const imgContent = item.img
+      ? `<img src="${item.img}" alt="${item.alt}" loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+         <div class="ph" style="display:none">${item.alt}</div>`
+      : PH(item.alt || item.name);
+    const catLabel = {'ua-pairs':'UA Pairs','streetwear':'Street Wear','branded':'Branded','accessories':'Bags & Acc.'}[item.cat] || item.cat;
+
+    return `<div class="card" role="listitem" data-item="${item.id}"
+        style="transition-delay:${Math.min(i, 12) * 0.04}s"
+        tabindex="0" aria-label="${item.name}">
+      <div class="card-photo">
+        ${imgContent}
+        ${badge}
+        <a class="card-wa" href="${waLink(item)}" target="_blank" aria-label="Order ${item.name} on WhatsApp">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/>
+          </svg>
+          Order on WhatsApp
+        </a>
+      </div>
+      <div class="card-info">
+        <p class="card-cat">${catLabel}</p>
+        <p class="card-name">${item.name}</p>
+        <p class="card-sub">${item.brand}</p>
+        <a class="card-enquire" href="${waLink(item)}" target="_blank">
+          Enquire → 
+        </a>
+      </div>
+    </div>`;
+  }).join('');
+
+  requestAnimationFrame(() => {
+    grid.querySelectorAll('.card').forEach(c =>
+      requestAnimationFrame(() => c.classList.add('in'))
+    );
+  });
+
+  /* IntersectionObserver for cards below fold */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.05 });
+  grid.querySelectorAll('.card').forEach(c => io.observe(c));
+}
+
+/* ════════ CATEGORY BUTTONS ════════ */
+function setcat(cat) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.cat === cat)
+  );
+  render();
+  document.querySelector('.grid-outer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.querySelectorAll('.cat-btn').forEach(btn =>
+  btn.addEventListener('click', () => setcat(btn.dataset.cat))
+);
+
+/* ════════ SEARCH ════════ */
+const searchInput = document.getElementById('search-input');
+const clearBtn = document.getElementById('clear-btn');
+
+let searchTimer;
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    searchQ = searchInput.value.trim();
+    clearBtn.classList.toggle('visible', searchQ.length > 0);
+    render();
+  }, 220);
+});
+
+clearBtn.addEventListener('click', () => {
+  searchInput.value = '';
+  searchQ = '';
+  clearBtn.classList.remove('visible');
+  searchInput.focus();
+  render();
+});
+
+/* ════════ INIT ════════ */
+render();
+</script>
+</body>
+</html>
